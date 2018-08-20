@@ -15,7 +15,9 @@ from deap import creator
 from deap import tools
 from deap import gp
 
+from tests import Tests
 from sort_tests import Sort_Tests
+from simple_tests import Simple_Tests
 from test_manager import Test_Manager
 
 import time
@@ -29,7 +31,8 @@ random.seed(time.time())
 def error_metric(a, b):
 	return (a-b)**2
 
-test_manager = Test_Manager(Sort_Tests, similarity_function=error_metric)
+# test_manager = Test_Manager(Sort_Tests, similarity_function=error_metric)
+test_manager = Test_Manager(Simple_Tests, similarity_function=error_metric)
 
 # =========================================================================
 # =========================== Arithmetic Ops  =============================
@@ -114,8 +117,6 @@ def swap_arr(arr, a, b):
 
 	return arr
 
-<<<<<<< HEAD
-=======
 def append_arr(arr, v):
 	return arr + [v]
 
@@ -131,18 +132,18 @@ def increment(i):
 def decrement(i):
 	return i - 1
 
-def swap_arr(l, a, b):
+# def swap_arr(l, a, b):
 
-	if len(l) == 0:
-		return l
+# 	if len(l) == 0:
+# 		return l
 
-	n = len(l)
+# 	n = len(l)
 
-	temp = l[a%n]
-	l[a%n] = l[b%n]
-	l[b%n] = temp
+# 	temp = l[a%n]
+# 	l[a%n] = l[b%n]
+# 	l[b%n] = temp
 
-	return l
+# 	return l
 
 def largest(a, b):
 	if a > b:
@@ -150,7 +151,6 @@ def largest(a, b):
 	else:
 		return b
 
->>>>>>> ad69d090f391e3b83b16acb24fecdd955a1f1665
 # =========================================================================
 # ================================  Utils  ================================
 # =========================================================================
@@ -167,51 +167,44 @@ def eval_tests(individual):
 # =============================  Gen Algo  ================================
 # =========================================================================
 
-<<<<<<< HEAD
-pset = gp.PrimitiveSetTyped("MAIN", [float] * 7, float)
+pset = gp.PrimitiveSetTyped("MAIN", [float] * 2, float)
 
 pset.addPrimitive(add, [float,float], float)
 pset.addPrimitive(neg, [float], float)
 pset.addPrimitive(mul, [float,float], float)
 pset.addPrimitive(div, [float,float], float)
 
-pset.addPrimitive(lt, [float, float], bool)
-pset.addPrimitive(if_then_else, [bool, float, float], float)
+# pset.addPrimitive(lt, [float, float], bool)
+# pset.addPrimitive(if_then_else, [bool, float, float], float)
 
-# terminals
-pset.addEphemeralConstant("rand100", lambda: random.random() * 100, float)
-pset.addTerminal(False, bool)
-pset.addTerminal(True, bool)
+# # terminals
+# pset.addEphemeralConstant("rand100", lambda: random.random() * 100, float)
+# pset.addTerminal(False, bool)
+# pset.addTerminal(True, bool)
 
-creator.create("FitnessMax", base.Fitness, weights=(-1.0, -1.0))
-=======
-pset = gp.PrimitiveSetTyped("MAIN", [list], list)
+# creator.create("FitnessMax", base.Fitness, weights=(-1.0, -1.0))
+# pset = gp.PrimitiveSetTyped("MAIN", [float], list)
 
-pset.addPrimitive(access_arr, [list, int], int)
-pset.addPrimitive(store_arr, [list, int, int], list)
+# pset.addPrimitive(access_arr, [list, int], int)
+# pset.addPrimitive(store_arr, [list, int, int], list)
 
-pset.addPrimitive(sub, [int, int], int)
+# pset.addPrimitive(sub, [int, int], int)
 pset.addPrimitive(largest, [int, int], int)
 
 pset.addPrimitive(increment, [int], int)
 pset.addPrimitive(decrement, [int], int)
 
-# pset.addPrimitive(lt, [int, int], bool)
-# pset.addPrimitive(if_then_else, [bool, int, int], int)
+pset.addPrimitive(lt, [int, int], bool)
+pset.addPrimitive(if_then_else, [bool, int, int], int)
 
 # pset.addTerminal(False, bool)
 # pset.addTerminal(True, bool)
 pset.addTerminal(0, int)
 # pset.addTerminal(1, int)
 
-# =========================================================================
-# =============================  Gen Algo  ================================
-# =========================================================================
-
 MAX_DEPTH = 1
 
 creator.create("FitnessMax", base.Fitness, weights=(1.0, -1.0))
->>>>>>> ad69d090f391e3b83b16acb24fecdd955a1f1665
 creator.create("Individual", gp.PrimitiveTree, fitness=creator.FitnessMax)
 
 toolbox = base.Toolbox()
@@ -227,20 +220,19 @@ toolbox.register("expr_mut", gp.genHalfAndHalf, min_=0, max_=15)
 toolbox.register("mutate", gp.mutUniform, expr=toolbox.expr_mut, pset=pset)
 
 def main():
-<<<<<<< HEAD
-	pop = toolbox.population(n=200)
-	hof = tools.HallOfFame(1)
-	stats = tools.Statistics(lambda ind: ind.fitness.values)
-	stats.register("avg", numpy.mean)
-	stats.register("std", numpy.std)
-	stats.register("min", numpy.min)
-	stats.register("max", numpy.max)
+	# pop = toolbox.population(n=200)
+	# hof = tools.HallOfFame(1)
+	# stats = tools.Statistics(lambda ind: ind.fitness.values)
+	# stats.register("avg", numpy.mean)
+	# stats.register("std", numpy.std)
+	# stats.register("min", numpy.min)
+	# stats.register("max", numpy.max)
 
-	try:
-		algorithms.eaSimple(pop, toolbox, 0.5, 0.2, 100, stats, halloffame=hof)
-	except:
-		pass
-=======
+	# try:
+	# 	algorithms.eaSimple(pop, toolbox, 0.5, 0.2, 100, stats, halloffame=hof)
+	# except:
+	# 	pass
+
     pop = toolbox.population(n=100)
     hof = tools.HallOfFame(1)
     stats = tools.Statistics(lambda ind: ind.fitness.values)
@@ -250,36 +242,32 @@ def main():
     stats.register("max", numpy.max)
 
     algorithms.eaMuPlusLambda(pop, toolbox, 100, 100, 0.25, 0.25, 100, stats, halloffame=hof)
->>>>>>> ad69d090f391e3b83b16acb24fecdd955a1f1665
 
-	return pop, stats, hof
+    return pop, stats, hof
 
 if __name__ == "__main__":
-	pop, stats, hof = main()
+    pop, stats, hof = main()
 
-	expr = gp.PrimitiveTree(hof[0])
+    expr = gp.PrimitiveTree(hof[0])
 
-	print(expr)
-<<<<<<< HEAD
-=======
-	# print("=============================")
-	# for i in range(5):
-	# 	print("-----------")
-	# 	arr = []
-	# 	for i in range(2):
-	# 		arr += [random.randint(0,10)]
-	# 	print(arr)
-	# 	print(sorted(arr))
-	# 	print(toolbox.compile(expr=expr)(arr))
+    print(expr)
+    print("=============================")
+    for i in range(5):
+        print("-----------")
+        arr = []
+        for i in range(2):
+            arr += [random.randint(0,10)]
+        print(arr)
+        print(arr[0] + arr[1])
+        print(toolbox.compile(expr=expr)(arr[0], arr[1]))
 
-	# g = nx.Graph()
-	# nodes, edges, labels = gp.graph(expr)
-	# g.add_nodes_from(nodes)
-	# g.add_edges_from(edges)
-	# pos = graphviz_layout(g, prog="dot")
+    # g = nx.Graph()
+    # nodes, edges, labels = gp.graph(expr)
+    # g.add_nodes_from(nodes)
+    # g.add_edges_from(edges)
+    # pos = nx.graphviz_layout(g, prog="dot")
 
-	# nx.draw_networkx_nodes(g, pos)
-	# nx.draw_networkx_edges(g, pos)
-	# nx.draw_networkx_labels(g, pos, labels)
-	# plt.show()
->>>>>>> ad69d090f391e3b83b16acb24fecdd955a1f1665
+    # nx.draw_networkx_nodes(g, pos)
+    # nx.draw_networkx_edges(g, pos)
+    # nx.draw_networkx_labels(g, pos, labels)
+    # plt.show()
